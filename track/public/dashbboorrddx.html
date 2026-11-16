@@ -11,7 +11,27 @@
     .panel,.stat{background:rgba(19,27,46,.94);border:1px solid var(--line);border-radius:16px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px}.stat{padding:18px}.stat label{display:block;color:var(--muted);font-size:13px}.stat strong{display:block;font-size:30px;margin-top:5px}
     .grid{display:grid;grid-template-columns:1.15fr .85fr;gap:16px}.panel{padding:20px;margin-bottom:16px}.panel h2{font-size:16px;margin:0 0 16px}.formgrid{display:grid;grid-template-columns:1fr 1.5fr 1fr auto;gap:10px}
     input{min-width:0;width:100%;background:#0d1528;border:1px solid var(--line);border-radius:9px;padding:12px;color:var(--text);outline:none}input:focus{border-color:var(--accent)}
-    button{border:0;border-radius:9px;padding:11px 15px;background:var(--accent);color:#071225;font-weight:750;cursor:pointer}button.secondary{background:var(--panel2);color:var(--text);border:1px solid var(--line)}button.danger{background:#482333;color:#ffdbe1}button:disabled{opacity:.5;cursor:not-allowed}
+    button{border:0;border-radius:9px;padding:11px 15px;background:var(--accent);color:#071225;font-weight:750;cursor:pointer}button.secondary{background:var(--panel2);color:var(--text);border:1px solid var(--line)}button.danger{background:#482333;color:#ffdbe1}
+    .top-actions{display:flex;gap:8px;flex-wrap:wrap}
+    .stat.clickable{cursor:pointer;transition:border-color .15s,background .15s}
+    .stat.clickable.active{border-color:var(--accent);background:#1a2947}
+    .stat .change{font-size:12px;color:var(--muted);margin-top:5px}
+    .mini-list{display:grid;gap:10px}
+    .mini-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;font-size:13px}
+    .mini-track{height:7px;background:#0d1528;border-radius:99px;overflow:hidden;margin-top:5px}
+    .mini-fill{height:100%;background:linear-gradient(90deg,#70a5ff,#43d6a0);border-radius:99px}
+    .summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .summary-box{padding:14px;border:1px solid var(--line);border-radius:12px;background:#0d1528}
+    .summary-box small{display:block;color:var(--muted)}
+    .summary-box strong{font-size:25px;display:block;margin-top:4px}
+    .recent-select{background:#0d1528;border:1px solid var(--line);color:var(--text);border-radius:8px;padding:8px;max-width:100%}
+    .copy-status{font-size:11px;color:var(--green);margin-top:4px;min-height:16px}
+    .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.72);display:flex;align-items:center;justify-content:center;padding:18px;z-index:99}
+    .confirm-modal{width:min(100%,440px);background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:0 20px 70px #0009}
+    .confirm-modal h2{margin:0 0 10px;font-size:19px}
+    .confirm-modal p{color:var(--muted);font-size:14px;line-height:1.6;margin:0 0 20px}
+    .modal-actions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+    button:disabled{opacity:.5;cursor:not-allowed}
     .tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;white-space:nowrap}th,td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--line);font-size:13px}th{color:var(--muted);font-weight:600}td .url{color:#a9c8ff;max-width:260px;overflow:hidden;text-overflow:ellipsis;display:block}.actions{display:flex;gap:6px}.actions button{padding:7px 9px;font-size:12px}
     .bars{height:180px;display:flex;align-items:end;gap:10px;padding-top:12px}.barcol{flex:1;display:flex;flex-direction:column;align-items:center;gap:7px;min-width:0}.bar{width:100%;max-width:42px;background:linear-gradient(180deg,#80b3ff,#477de0);border-radius:7px 7px 2px 2px;min-height:3px}.barcol small{color:var(--muted);font-size:11px}.barcol b{font-size:10px;color:var(--muted)}
     .hidden{display:none!important}.muted{color:var(--muted)}.notice{padding:10px 12px;border-radius:9px;background:#332b1a;color:#ffdc91;margin:12px 0;font-size:13px}.empty{text-align:center;color:var(--muted);padding:25px}
@@ -35,7 +55,10 @@
   <main id="app" class="wrap">
     <header class="top">
       <div><div class="brand">LINK<span>TRACKER</span></div><div class="sub">Dashboard redirect dan statistik klik</div></div>
-      <div><button class="secondary" id="refreshBtn">Refresh data</button></div>
+      <div class="top-actions">
+          <button class="secondary" id="refreshBtn">↻ Refresh</button>
+          <button class="danger" id="resetBtn">Reset Data</button>
+        </div>
     </header>
 
     <div class="notice">Catatan: angka klik menghitung request yang lolos filter bot dan deduplikasi. Detail path/query referrer bergantung pada kebijakan Referrer-Policy browser dan website sumber; jika dipotong oleh browser, bagian tersebut memang tidak tersedia untuk dicatat.</div>
@@ -44,6 +67,15 @@
       <div class="stat"><label>Total klik</label><strong id="totalClicks">0</strong></div>
       <div class="stat"><label>Total link</label><strong id="totalLinks">0</strong></div>
       <div class="stat"><label>Rata-rata klik / link</label><strong id="averageClicks">0</strong></div>
+    </section>
+
+    <section class="panel">
+      <h2>Ringkasan Hari Ini</h2>
+      <div class="summary-grid">
+        <div class="summary-box"><small>Klik hari ini</small><strong id="todayClicks">0</strong></div>
+        <div class="summary-box"><small>Klik kemarin</small><strong id="yesterdayClicks">0</strong></div>
+      </div>
+      <p class="sub" id="dailyComparison" style="margin:12px 0 0">Perbandingan klik hari ini dengan kemarin.</p>
     </section>
 
     <div class="grid">
@@ -65,10 +97,19 @@
           <div class="tablewrap">
             <table><thead><tr><th>Nama / slug</th><th>Klik</th><th>URL tracking</th><th>Aksi</th></tr></thead><tbody id="linksBody"><tr><td colspan="4" class="empty">Belum ada link.</td></tr></tbody></table>
           </div>
+          <p class="sub">Gunakan tombol <b>Salin</b> untuk menyalin URL tracking, bukan URL tujuan.</p>
         </div>
       </section>
 
       <section>
+        <div class="panel">
+          <h2>Top Sumber (Domain)</h2>
+          <div id="topSources" class="mini-list"><div class="empty">Belum ada data sumber.</div></div>
+        </div>
+        <div class="panel">
+          <h2>Deteksi Device</h2>
+          <div id="deviceStats" class="mini-list"><div class="empty">Belum ada data device.</div></div>
+        </div>
         <div class="panel">
           <h2>Statistik 7 hari terakhir</h2>
           <div id="chart" class="bars"></div>
@@ -80,6 +121,15 @@
               <button type="button" class="filter-btn active" data-filter="today">Hari ini</button>
               <button type="button" class="filter-btn" data-filter="7d">7 hari</button>
               <button type="button" class="filter-btn" data-filter="all">Semua</button>
+            </div>
+            <div class="filter-group">
+              <select id="linkFilter" class="recent-select" aria-label="Filter berdasarkan link">
+                <option value="all">Semua link</option>
+              </select>
+              <select id="historyLimit" class="recent-select" aria-label="Jumlah riwayat">
+                <option value="100">100 aktivitas</option>
+                <option value="200" selected>200 aktivitas</option>
+              </select>
             </div>
           </div>
           <div id="recent" class="recent"><div class="empty">Belum ada aktivitas.</div></div>
@@ -115,6 +165,8 @@
   let allRecent = [];
   let recentFilter = "today";
   let recentPage = 1;
+  let recentLinkFilter = "all";
+  let historyLimit = 200;
   const PAGE_SIZE = 10;
 
   async function api(path, options = {}) {
@@ -141,15 +193,90 @@
   }
 
   function filteredRecent() {
+    let result = allRecent;
     if (recentFilter === "today") {
       const start = startOfToday();
-      return allRecent.filter(e => new Date(e.at) >= start);
-    }
-    if (recentFilter === "7d") {
+      result = result.filter(e => new Date(e.at) >= start);
+    } else if (recentFilter === "7d") {
       const start = daysAgo(7);
-      return allRecent.filter(e => new Date(e.at) >= start);
+      result = result.filter(e => new Date(e.at) >= start);
     }
-    return allRecent;
+    if (recentLinkFilter !== "all") {
+      result = result.filter(e => String(e.slug || "") === recentLinkFilter);
+    }
+    return result.slice(0, historyLimit);
+  }
+
+  function dateKey(date) {
+    const d = new Date(date);
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+  }
+
+  function renderDailySummary(daily) {
+    const today = new Date();
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    const todayKey = dateKey(today);
+    const yesterdayKey = dateKey(yesterday);
+    const todayRow = (daily || []).find(x => x.date === todayKey);
+    const yesterdayRow = (daily || []).find(x => x.date === yesterdayKey);
+    const todayCount = Number(todayRow?.clicks || 0);
+    const yesterdayCount = Number(yesterdayRow?.clicks || 0);
+    $("todayClicks").textContent = fmt(todayCount);
+    $("yesterdayClicks").textContent = fmt(yesterdayCount);
+    let message = "Belum ada perbandingan klik.";
+    if (yesterdayCount === 0 && todayCount > 0) message = `Hari ini ada ${fmt(todayCount)} klik; kemarin belum ada klik.`;
+    else if (yesterdayCount === 0) message = "Belum ada klik hari ini maupun kemarin.";
+    else {
+      const diff = todayCount - yesterdayCount;
+      const pct = Math.round(Math.abs(diff) / yesterdayCount * 100);
+      message = diff > 0 ? `Naik ${pct}% (${fmt(diff)} klik) dibanding kemarin.` :
+        diff < 0 ? `Turun ${pct}% (${fmt(Math.abs(diff))} klik) dibanding kemarin.` :
+        "Jumlah klik sama seperti kemarin.";
+    }
+    $("dailyComparison").textContent = message;
+  }
+
+  function renderTopSources() {
+    const counts = {};
+    allRecent.forEach(e => {
+      const domain = e.referrerDomain || e.referrerHost || "Tidak diketahui";
+      counts[domain] = (counts[domain] || 0) + 1;
+    });
+    const entries = Object.entries(counts).sort((a,b) => b[1]-a[1]).slice(0,8);
+    const max = Math.max(1, ...entries.map(x => x[1]));
+    $("topSources").innerHTML = entries.length ? entries.map(([domain,count]) =>
+      `<div class="mini-row"><div><b>${esc(domain)}</b><div class="mini-track"><div class="mini-fill" style="width:${count/max*100}%"></div></div></div><b>${fmt(count)}</b></div>`
+    ).join("") : `<div class="empty">Belum ada data sumber.</div>`;
+  }
+
+  function detectDevice(event) {
+    const raw = String(event.device || event.deviceType || event.userAgent || event.ua || "");
+    if (/mobile|android|iphone|ipad|ipod|windows phone/i.test(raw)) {
+      if (/ipad|tablet/i.test(raw)) return "Tablet";
+      return "Mobile";
+    }
+    if (/desktop|windows|macintosh|linux|x11/i.test(raw)) return "Desktop";
+    return "Tidak diketahui";
+  }
+
+  function renderDeviceStats() {
+    const counts = { Mobile: 0, Desktop: 0, Tablet: 0, "Tidak diketahui": 0 };
+    allRecent.forEach(e => counts[detectDevice(e)]++);
+    const total = Object.values(counts).reduce((a,b) => a+b, 0);
+    $("deviceStats").innerHTML = total ? Object.entries(counts).filter(x => x[1] > 0).map(([name,count]) =>
+      `<div class="mini-row"><div><b>${name}</b><div class="mini-track"><div class="mini-fill" style="width:${count/total*100}%"></div></div></div><b>${fmt(count)} <span class="muted">(${Math.round(count/total*100)}%)</span></b></div>`
+    ).join("") : `<div class="empty">Belum ada data device.</div>`;
+  }
+
+  function renderLinkFilter() {
+    const select = $("linkFilter");
+    const oldValue = recentLinkFilter;
+    select.innerHTML = `<option value="all">Semua link</option>` + currentLinks.map(link =>
+      `<option value="${esc(link.slug)}">${esc(link.name)} (${esc(link.slug)})</option>`
+    ).join("");
+    select.value = currentLinks.some(x => x.slug === oldValue) ? oldValue : "all";
+    recentLinkFilter = select.value;
   }
 
   function renderRecent() {
@@ -197,9 +324,13 @@
   }
 
   async function loadDashboard() {
-    const data = await api("/api/stats");
+    const data = await api("/api/stats?limit=200");
     currentLinks = data.links || [];
-    allRecent = data.recent || [];
+    allRecent = (data.recent || []).slice(0, 200);
+    renderDailySummary(data.daily || []);
+    renderTopSources();
+    renderDeviceStats();
+    renderLinkFilter();
     $("totalClicks").textContent = fmt(data.totalClicks);
     $("totalLinks").textContent = fmt(data.totalLinks);
     $("averageClicks").textContent = fmt(data.totalLinks ? Math.round(data.totalClicks / data.totalLinks) : 0);
@@ -228,6 +359,49 @@
   }
 
   $("refreshBtn").addEventListener("click", () => loadDashboard().catch(e => alert(e.message)));
+
+  $("historyLimit").addEventListener("change", e => {
+    historyLimit = Number(e.target.value) === 100 ? 100 : 200;
+    recentPage = 1;
+    renderRecent();
+  });
+
+  $("linkFilter").addEventListener("change", e => {
+    recentLinkFilter = e.target.value;
+    recentPage = 1;
+    renderRecent();
+  });
+
+  $("resetBtn").addEventListener("click", () => {
+    const modal = document.createElement("div");
+    modal.className = "modal-backdrop";
+    modal.innerHTML = `<div class="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="resetTitle">
+      <h2 id="resetTitle">Yakin ingin menghapus semua data statistik?</h2>
+      <p>Data klik, aktivitas, dan sumber akan dihapus permanen.<br><b>Link tracking tetap ada.</b></p>
+      <div class="modal-actions">
+        <button type="button" class="secondary" id="cancelReset">Batal</button>
+        <button type="button" class="danger" id="confirmReset">Ya, Hapus Semua</button>
+      </div>
+    </div>`;
+    document.body.appendChild(modal);
+    modal.querySelector("#cancelReset").addEventListener("click", () => modal.remove());
+    modal.addEventListener("click", e => { if (e.target === modal) modal.remove(); });
+    modal.querySelector("#confirmReset").addEventListener("click", async () => {
+      const confirmButton = modal.querySelector("#confirmReset");
+      confirmButton.disabled = true;
+      confirmButton.textContent = "Menghapus...";
+      try {
+        await api("/api/stats/reset", { method: "DELETE" });
+        modal.remove();
+        await loadDashboard();
+        alert("Data statistik berhasil direset. Semua link tracking tetap tersimpan.");
+      } catch (err) {
+        confirmButton.disabled = false;
+        confirmButton.textContent = "Ya, Hapus Semua";
+        alert("Reset gagal: " + err.message + "\\nPastikan endpoint DELETE /api/stats/reset sudah tersedia di backend.");
+      }
+    });
+  });
 
   // Filter aktivitas
   $("recentFilter").addEventListener("click", e => {
@@ -275,7 +449,19 @@
   $("linksBody").addEventListener("click", async e => {
     const copy = e.target.dataset.copy, edit = e.target.dataset.edit, del = e.target.dataset.delete;
     try {
-      if (copy) { await navigator.clipboard.writeText(copy); e.target.textContent = "Tersalin"; }
+      if (copy) {
+        try {
+          await navigator.clipboard.writeText(copy);
+        } catch (_) {
+          const temp = document.createElement("textarea");
+          temp.value = copy; document.body.appendChild(temp); temp.select();
+          document.execCommand("copy"); temp.remove();
+        }
+        const original = e.target.textContent;
+        e.target.textContent = "✓ Link Tersalin";
+        e.target.title = "Link tracking berhasil disalin";
+        setTimeout(() => { if (e.target.isConnected) e.target.textContent = original; }, 2200);
+      }
       if (edit) {
         const link = currentLinks.find(x => x.slug === edit);
         const name = prompt("Nama link:", link.name);
