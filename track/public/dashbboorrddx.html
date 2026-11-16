@@ -14,9 +14,21 @@
     button{border:0;border-radius:9px;padding:11px 15px;background:var(--accent);color:#071225;font-weight:750;cursor:pointer}button.secondary{background:var(--panel2);color:var(--text);border:1px solid var(--line)}button.danger{background:#482333;color:#ffdbe1}button:disabled{opacity:.5;cursor:not-allowed}
     .tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;white-space:nowrap}th,td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--line);font-size:13px}th{color:var(--muted);font-weight:600}td .url{color:#a9c8ff;max-width:260px;overflow:hidden;text-overflow:ellipsis;display:block}.actions{display:flex;gap:6px}.actions button{padding:7px 9px;font-size:12px}
     .bars{height:180px;display:flex;align-items:end;gap:10px;padding-top:12px}.barcol{flex:1;display:flex;flex-direction:column;align-items:center;gap:7px;min-width:0}.bar{width:100%;max-width:42px;background:linear-gradient(180deg,#80b3ff,#477de0);border-radius:7px 7px 2px 2px;min-height:3px}.barcol small{color:var(--muted);font-size:11px}.barcol b{font-size:10px;color:var(--muted)}
-    .hidden{display:none!important}.muted{color:var(--muted)}.notice{padding:10px 12px;border-radius:9px;background:#332b1a;color:#ffdc91;margin:12px 0;font-size:13px}.empty{text-align:center;color:var(--muted);padding:25px}.recent{display:grid;gap:10px}.event{padding:10px 0;border-bottom:1px solid var(--line);font-size:13px}.event small{display:block;color:var(--muted);margin-top:3px;overflow-wrap:anywhere}.refdetail{margin-top:7px;padding:9px 10px;background:#0d1528;border:1px solid var(--line);border-radius:9px;overflow-wrap:anywhere}.refdetail b{color:#cbd8f4;font-weight:650}.refdetail a{color:#a9c8ff;text-decoration:none}.refdetail a:hover{text-decoration:underline}.refrow{margin:3px 0}
+    .hidden{display:none!important}.muted{color:var(--muted)}.notice{padding:10px 12px;border-radius:9px;background:#332b1a;color:#ffdc91;margin:12px 0;font-size:13px}.empty{text-align:center;color:var(--muted);padding:25px}
+    .recent{display:grid;gap:0}.event{padding:12px 0;border-bottom:1px solid var(--line);font-size:13px}.event:last-child{border-bottom:0}
+    .event-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+    .event-main{min-width:0;flex:1}.event-main b{display:block;font-size:14px;line-height:1.3}.event-main small{display:block;color:var(--muted);margin-top:3px;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .event-toggle{flex-shrink:0;color:var(--muted);font-size:12px;padding:4px 8px;border-radius:6px;background:var(--panel2);border:1px solid var(--line);user-select:none}
+    .event.open .event-toggle{color:var(--accent);border-color:var(--accent)}
+    .refdetail{display:none;margin-top:10px;padding:10px 12px;background:#0d1528;border:1px solid var(--line);border-radius:10px;overflow-wrap:anywhere;font-size:12px}
+    .event.open .refdetail{display:block}.refdetail b{color:#cbd8f4;font-weight:650}.refdetail a{color:#a9c8ff;text-decoration:none}.refrow{margin:4px 0}
+    .recent-toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;margin-bottom:14px}
+    .filter-group{display:flex;gap:6px;flex-wrap:wrap}.filter-btn{padding:7px 12px;font-size:12px;border-radius:8px;background:var(--panel2);color:var(--muted);border:1px solid var(--line);cursor:pointer;font-weight:600}
+    .filter-btn.active{background:var(--accent);color:#071225;border-color:var(--accent)}
+    .pager{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px;padding-top:12px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);flex-wrap:wrap}
+    .pager-btns{display:flex;gap:6px;align-items:center}.pager button{padding:7px 11px;font-size:12px;min-width:36px}.pager .page-info{white-space:nowrap}
     @media(max-width:850px){.grid{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr 1fr}.formgrid button{grid-column:span 2}.stats{grid-template-columns:1fr 1fr}}
-    @media(max-width:520px){.wrap{padding:20px 12px}.top{align-items:flex-start;flex-direction:column}.stats{gap:8px}.stat{padding:13px}.stat strong{font-size:24px}.formgrid{grid-template-columns:1fr}.formgrid button{grid-column:auto}}
+    @media(max-width:520px){.wrap{padding:20px 12px}.top{align-items:flex-start;flex-direction:column}.stats{gap:8px}.stat{padding:13px}.stat strong{font-size:24px}.formgrid{grid-template-columns:1fr}.formgrid button{grid-column:auto}.event-main small{white-space:normal}.recent-toolbar{flex-direction:column;align-items:stretch}.filter-group{width:100%}.filter-btn{flex:1;text-align:center}.pager{flex-direction:column;align-items:stretch;gap:8px}.pager-btns{justify-content:center}}
   </style>
 </head>
 <body>
@@ -63,7 +75,21 @@
         </div>
         <div class="panel">
           <h2>Aktivitas terbaru</h2>
+          <div class="recent-toolbar">
+            <div class="filter-group" id="recentFilter">
+              <button type="button" class="filter-btn active" data-filter="today">Hari ini</button>
+              <button type="button" class="filter-btn" data-filter="7d">7 hari</button>
+              <button type="button" class="filter-btn" data-filter="all">Semua</button>
+            </div>
+          </div>
           <div id="recent" class="recent"><div class="empty">Belum ada aktivitas.</div></div>
+          <div id="recentPager" class="pager hidden">
+            <span class="page-info" id="pageInfo">Menampilkan 0 dari 0</span>
+            <div class="pager-btns">
+              <button type="button" class="secondary" id="prevPage" disabled>←</button>
+              <button type="button" class="secondary" id="nextPage" disabled>→</button>
+            </div>
+          </div>
         </div>
       </section>
     </div>
@@ -86,6 +112,10 @@
   }
 
   let currentLinks = [];
+  let allRecent = [];
+  let recentFilter = "today";
+  let recentPage = 1;
+  const PAGE_SIZE = 10;
 
   async function api(path, options = {}) {
     const headers = { ...(options.headers || {}), "x-dashboard-key": dashboardKey };
@@ -98,9 +128,78 @@
   function fmt(n) { return Number(n || 0).toLocaleString("id-ID"); }
   function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c])); }
 
+  function startOfToday() {
+    const d = new Date();
+    d.setHours(0, 0, 0, 0);
+    return d;
+  }
+  function daysAgo(n) {
+    const d = new Date();
+    d.setDate(d.getDate() - n);
+    d.setHours(0, 0, 0, 0);
+    return d;
+  }
+
+  function filteredRecent() {
+    if (recentFilter === "today") {
+      const start = startOfToday();
+      return allRecent.filter(e => new Date(e.at) >= start);
+    }
+    if (recentFilter === "7d") {
+      const start = daysAgo(7);
+      return allRecent.filter(e => new Date(e.at) >= start);
+    }
+    return allRecent;
+  }
+
+  function renderRecent() {
+    const list = filteredRecent();
+    const total = list.length;
+    const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+    if (recentPage > totalPages) recentPage = totalPages;
+    if (recentPage < 1) recentPage = 1;
+
+    const start = (recentPage - 1) * PAGE_SIZE;
+    const pageItems = list.slice(start, start + PAGE_SIZE);
+
+    if (!total) {
+      $("recent").innerHTML = `<div class="empty">Belum ada klik tercatat${recentFilter === "today" ? " hari ini" : recentFilter === "7d" ? " 7 hari terakhir" : ""}.</div>`;
+      $("recentPager").classList.add("hidden");
+      return;
+    }
+
+    $("recent").innerHTML = pageItems.map((event, idx) => {
+      const domain = event.referrerDomain || event.referrerHost || "tidak tersedia";
+      const source = event.source || "tidak diketahui";
+      const timeStr = new Date(event.at).toLocaleString("id-ID", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" });
+      const fullUrl = event.referrerFull || event.referer || "";
+      return `<div class="event" data-idx="${start + idx}">
+        <div class="event-head">
+          <div class="event-main">
+            <b>${esc(event.name || event.slug)} <span class="muted">(${esc(event.slug)})</span></b>
+            <small>${timeStr} · ${esc(source)}${domain && domain !== "tidak tersedia" ? " · " + esc(domain) : ""}</small>
+          </div>
+          <span class="event-toggle">Detail</span>
+        </div>
+        <div class="refdetail">
+          <div class="refrow"><b>Domain:</b> ${esc(domain)}</div>
+          <div class="refrow"><b>Path / slug:</b> ${esc(event.referrerPath || "tidak tersedia")}</div>
+          <div class="refrow"><b>Query:</b> ${esc(event.referrerQuery || "tidak ada / tidak dikirim")}</div>
+          <div class="refrow"><b>URL lengkap:</b> ${fullUrl ? `<a href="${esc(fullUrl)}" target="_blank" rel="noopener noreferrer">${esc(fullUrl)}</a>` : "tidak tersedia"}</div>
+        </div>
+      </div>`;
+    }).join("");
+
+    $("recentPager").classList.remove("hidden");
+    $("pageInfo").textContent = `Menampilkan ${start + 1}–${Math.min(start + PAGE_SIZE, total)} dari ${total}`;
+    $("prevPage").disabled = recentPage <= 1;
+    $("nextPage").disabled = recentPage >= totalPages;
+  }
+
   async function loadDashboard() {
     const data = await api("/api/stats");
     currentLinks = data.links || [];
+    allRecent = data.recent || [];
     $("totalClicks").textContent = fmt(data.totalClicks);
     $("totalLinks").textContent = fmt(data.totalLinks);
     $("averageClicks").textContent = fmt(data.totalLinks ? Math.round(data.totalClicks / data.totalLinks) : 0);
@@ -124,19 +223,41 @@
       return `<div class="barcol"><b>${fmt(day.clicks)}</b><div class="bar" style="height:${height}px"></div><small>${day.date.slice(5)}</small></div>`;
     }).join("");
 
-    $("recent").innerHTML = data.recent.length ? data.recent.map(event => `
-      <div class="event"><b>${esc(event.name || event.slug)}</b> <span class="muted">(${esc(event.slug)})</span>
-      <small>${new Date(event.at).toLocaleString("id-ID")} · Sumber: ${esc(event.source || "tidak diketahui")}</small>
-      <div class="refdetail">
-        <div class="refrow"><b>Domain:</b> ${esc(event.referrerDomain || event.referrerHost || "tidak tersedia")}</div>
-        <div class="refrow"><b>Path / slug:</b> ${esc(event.referrerPath || "tidak tersedia")}</div>
-        <div class="refrow"><b>Query:</b> ${esc(event.referrerQuery || "tidak ada / tidak dikirim")}</div>
-        <div class="refrow"><b>URL lengkap:</b> ${event.referrerFull || event.referer ? `<a href="${esc(event.referrerFull || event.referer)}" target="_blank" rel="noopener noreferrer">${esc(event.referrerFull || event.referer)}</a>` : "tidak tersedia"}</div>
-      </div></div>
-    `).join("") : `<div class="empty">Belum ada klik tercatat.</div>`;
+    recentPage = 1;
+    renderRecent();
   }
 
   $("refreshBtn").addEventListener("click", () => loadDashboard().catch(e => alert(e.message)));
+
+  // Filter aktivitas
+  $("recentFilter").addEventListener("click", e => {
+    const btn = e.target.closest(".filter-btn");
+    if (!btn) return;
+    recentFilter = btn.dataset.filter;
+    recentPage = 1;
+    $("recentFilter").querySelectorAll(".filter-btn").forEach(b => b.classList.toggle("active", b === btn));
+    renderRecent();
+  });
+
+  // Pagination
+  $("prevPage").addEventListener("click", () => {
+    if (recentPage > 1) { recentPage--; renderRecent(); }
+  });
+  $("nextPage").addEventListener("click", () => {
+    recentPage++;
+    renderRecent();
+  });
+
+  // Expand / collapse detail (touch-friendly)
+  $("recent").addEventListener("click", e => {
+    const head = e.target.closest(".event-head");
+    if (!head) return;
+    const eventEl = head.closest(".event");
+    if (!eventEl) return;
+    eventEl.classList.toggle("open");
+    const toggle = eventEl.querySelector(".event-toggle");
+    if (toggle) toggle.textContent = eventEl.classList.contains("open") ? "Tutup" : "Detail";
+  });
 
   $("addForm").addEventListener("submit", async e => {
     e.preventDefault();
