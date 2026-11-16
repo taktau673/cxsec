@@ -1,6 +1,0 @@
-{
-  "rewrites": [
-    { "source": "/dashbboorrddx", "destination": "/dashbboorrddx.html" },
-    { "source": "/go/:slug", "destination": "/api/go/:slug" }
-  ]
-}
