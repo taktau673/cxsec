@@ -1,0 +1,17 @@
+{
+  "rewrites": [
+    {
+      "source": "/dashbboorrddx",
+      "destination": "/api/dashboard"
+    },
+    {
+      "source": "/go/:slug",
+      "destination": "/api/go/:slug"
+    }
+  ],
+  "functions": {
+    "api/dashboard.js": {
+      "includeFiles": "{private/dashboard.html,public/404.html}"
+    }
+  }
+}
