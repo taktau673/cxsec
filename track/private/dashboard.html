@@ -265,10 +265,7 @@
         <div class="refdetail">
           <div class="refrow"><b>Judul halaman sumber:</b> ${esc(event.sourceTitle || "tidak dikirim")}${event.sourceTitleMethod && event.sourceTitleMethod !== "not_provided" ? ` <span class="muted">(${esc(event.sourceTitleMethod)})</span>` : ""}</div>
           <div class="refrow"><b>Domain:</b> ${esc(domain)}</div>
-          <div class="refrow"><b>Path / slug:</b> ${esc(event.referrerPath || "tidak tersedia")}</div>
-          <div class="refrow"><b>Query:</b> ${esc(event.referrerQuery || "tidak ada / tidak dikirim")}</div>
-          <div class="refrow"><b>URL lengkap:</b> ${fullUrl ? `<a href="${esc(fullUrl)}" target="_blank" rel="noopener noreferrer">${esc(fullUrl)}</a>` : "tidak tersedia"}${event.sourceUrlOverride ? ` <span class="muted">(dari parameter)</span>` : ""}</div>
-        </div>
+          </div>
       </div>`;
     }).join("");
 
