@@ -1,0 +1,539 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#10110e">
+<meta name="robots" content="noindex, nofollow">
+<title>404 — Page Not Found | NOVA</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+:root {
+    --bg: #10110e;
+    --white: #f5f5ef;
+    --muted: #92958b;
+    --green: #c5ff55;
+    --border: rgba(255,255,255,.12);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+}
+
+/* BACKGROUND */
+
+.background {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(
+        circle,
+        rgba(159,255,65,.10),
+        transparent 68%
+    );
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.grid-bg {
+    position: absolute;
+    inset: 0;
+    opacity: .12;
+    background-image:
+        linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px);
+    background-size: 70px 70px;
+    mask-image: linear-gradient(to bottom, black, transparent 85%);
+}
+
+.noise {
+    position: absolute;
+    inset: 0;
+    opacity: .035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+}
+
+/* NAVBAR */
+
+.navbar {
+    position: relative;
+    z-index: 5;
+    width: min(1200px, 90%);
+    height: 95px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    color: var(--white);
+    text-decoration: none;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 23px;
+    font-weight: 700;
+    letter-spacing: -1px;
+}
+
+.logo-icon {
+    color: var(--green);
+    font-size: 28px;
+    animation: rotate 15s linear infinite;
+}
+
+@keyframes rotate {
+    to { transform: rotate(360deg); }
+}
+
+.nav-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+}
+
+/* MAIN */
+
+.main {
+    position: relative;
+    z-index: 2;
+    min-height: calc(100vh - 170px);
+    width: min(1200px, 90%);
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 70px 0;
+}
+
+.content {
+    width: 100%;
+    text-align: center;
+    position: relative;
+}
+
+/* SMALL LABEL */
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 16px;
+    border: 1px solid rgba(197,255,85,.25);
+    border-radius: 30px;
+    color: var(--green);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 35px;
+    background: rgba(197,255,85,.04);
+}
+
+.eyebrow-dot {
+    width: 7px;
+    height: 7px;
+    background: var(--green);
+    border-radius: 50%;
+    box-shadow: 0 0 12px var(--green);
+}
+
+/* 404 */
+
+.error-area {
+    position: relative;
+    width: fit-content;
+    margin: auto;
+}
+
+.error-number {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(150px, 25vw, 310px);
+    font-weight: 700;
+    line-height: .85;
+    letter-spacing: -20px;
+    color: var(--white);
+    position: relative;
+    text-shadow: 0 10px 80px rgba(197,255,85,.06);
+}
+
+.error-number .zero {
+    color: var(--green);
+    position: relative;
+    display: inline-block;
+}
+
+.zero::after {
+    content: '';
+    position: absolute;
+    width: 120%;
+    height: 1px;
+    background: var(--green);
+    left: -10%;
+    top: 50%;
+    box-shadow: 0 0 15px var(--green);
+    transform: rotate(-35deg);
+}
+
+.spark {
+    position: absolute;
+    color: var(--green);
+    font-size: 30px;
+    animation: pulse 3s ease-in-out infinite;
+}
+
+.spark.one {
+    top: 10%;
+    right: -70px;
+}
+
+.spark.two {
+    bottom: 10%;
+    left: -65px;
+    font-size: 20px;
+    animation-delay: 1s;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: .3;
+        transform: scale(.8) rotate(0);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.2) rotate(90deg);
+    }
+}
+
+/* TEXT */
+
+.heading {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(27px, 4vw, 45px);
+    font-weight: 600;
+    letter-spacing: -1.5px;
+    margin-top: 45px;
+}
+
+.heading span {
+    color: var(--green);
+}
+
+.description {
+    max-width: 490px;
+    margin: 18px auto 0;
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.9;
+}
+
+/* BUTTON */
+
+.actions {
+    margin-top: 38px;
+    display: flex;
+    justify-content: center;
+}
+
+.home-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 13px;
+    padding: 16px 25px;
+    border-radius: 5px;
+    background: var(--green);
+    color: #11140c;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: .3s ease;
+}
+
+.home-btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 35px rgba(197,255,85,.2);
+    background: #d5ff86;
+}
+
+.home-btn .arrow {
+    font-size: 19px;
+    transition: .3s;
+}
+
+.home-btn:hover .arrow {
+    transform: translateX(5px);
+}
+
+/* BOTTOM INFORMATION */
+
+.bottom-info {
+    position: relative;
+    z-index: 3;
+    width: min(1200px, 90%);
+    margin: auto;
+    border-top: 1px solid var(--border);
+    padding: 25px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.bottom-info p {
+    color: #73776d;
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+.bottom-info strong {
+    color: var(--green);
+    font-weight: 600;
+}
+
+.status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+}
+
+/* DECORATION */
+
+.circle {
+    position: absolute;
+    border: 1px solid rgba(197,255,85,.09);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.circle.one {
+    width: 350px;
+    height: 350px;
+    top: 10%;
+    left: -180px;
+}
+
+.circle.two {
+    width: 500px;
+    height: 500px;
+    bottom: -150px;
+    right: -250px;
+}
+
+/* MOBILE */
+
+@media(max-width: 700px) {
+
+    .navbar {
+        height: 75px;
+    }
+
+    .logo {
+        font-size: 20px;
+    }
+
+    .nav-label {
+        font-size: 9px;
+        letter-spacing: 1px;
+    }
+
+    .main {
+        min-height: calc(100vh - 150px);
+        padding: 65px 0;
+    }
+
+    .eyebrow {
+        font-size: 9px;
+        margin-bottom: 40px;
+    }
+
+    .error-number {
+        font-size: clamp(125px, 38vw, 190px);
+        letter-spacing: -10px;
+    }
+
+    .spark.one {
+        right: -35px;
+        font-size: 20px;
+    }
+
+    .spark.two {
+        left: -30px;
+        font-size: 15px;
+    }
+
+    .heading {
+        margin-top: 35px;
+        font-size: 27px;
+    }
+
+    .description {
+        font-size: 13px;
+        padding: 0 12px;
+    }
+
+    .home-btn {
+        padding: 15px 21px;
+        font-size: 12px;
+    }
+
+    .bottom-info {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px 0;
+    }
+
+    .circle.one {
+        width: 200px;
+        height: 200px;
+        left: -120px;
+    }
+
+    .circle.two {
+        width: 250px;
+        height: 250px;
+        right: -130px;
+    }
+}
+
+@media(prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- BACKGROUND -->
+<div class="background">
+    <div class="glow"></div>
+    <div class="grid-bg"></div>
+    <div class="noise"></div>
+</div>
+
+<div class="circle one"></div>
+<div class="circle two"></div>
+
+<!-- NAVIGATION -->
+<header class="navbar">
+
+    <a href="/" class="logo">
+        <span class="logo-icon">✳</span>
+        NOVA
+    </a>
+
+    <div class="nav-label">
+        Creative space / 404
+    </div>
+
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+    <section class="content">
+
+        <div class="eyebrow">
+            <span class="eyebrow-dot"></span>
+            Oops! Something went missing
+        </div>
+
+        <div class="error-area">
+
+            <div class="spark one">✳</div>
+            <div class="spark two">✦</div>
+
+            <div class="error-number">
+                4<span class="zero">0</span>4
+            </div>
+
+        </div>
+
+        <h1 class="heading">
+            Lost in <span>Possibilities.</span>
+        </h1>
+
+        <p class="description">
+            Sepertinya halaman yang kamu cari sedang berada
+            di luar jangkauan. Mungkin sudah dipindahkan,
+            dihapus, atau memang belum pernah ada.
+            Tapi jangan khawatir, selalu ada hal baru
+            untuk ditemukan di NOVA.
+        </p>
+
+        <div class="actions">
+
+            <a href="/" class="home-btn">
+                <span>✳</span>
+                Kembali ke Beranda
+                <span class="arrow">↗</span>
+            </a>
+
+        </div>
+
+    </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="bottom-info">
+
+    <p>
+        <strong>✳ NOVA</strong>
+        &nbsp; / &nbsp;
+        Ruang untuk ide besar.
+    </p>
+
+    <div class="status">
+        <span class="status-dot"></span>
+        ALWAYS ROOM FOR SOMETHING NEW
+    </div>
+
+    <p>
+        © NOVA. Dibuat dengan rasa ingin tahu.
+    </p>
+
+</footer>
+
+</body>
+</html>
